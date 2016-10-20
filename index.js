@@ -1,5 +1,7 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var React = require('react');
 var renderToString = require('react-dom/server').renderToString;
 
@@ -28,86 +30,51 @@ var Middle = React.createClass({
     }
 });
 
+var lettering = 'abcdefghijklmnopqrstuvwxyz';
+function createRandomWord() {
+
+    // 4 - 13 length long words
+    var length = 3 + Math.ceil(Math.random() * 10);
+    var word = '';
+    for (var i = 0; i < length; ++i) {
+        var letter = lettering[Math.floor(Math.random() * lettering.length)];
+        word += letter;
+    }
+
+    return word;
+}
+
+function getRandomWord() {
+    return words[Math.floor(Math.random() * words.length)];
+}
+
+var words = [];
+var wordIndex = 0;
+while (wordIndex < 1000) {
+    words[wordIndex] = createRandomWord();
+    wordIndex++;
+}
+
 var Top = React.createClass({
     getInitialState: function getInitialState() {
-        return {
-            things: [],
-            that: [],
-            make: [],
-            me: {},
-            happy: {}
-        };
+        return {};
     },
 
     componentWillMount: function componentWillMount() {
-        var item;
-        for (var i = 0; i < this.props.count; ++i) {
-            var rand = Math.floor(Math.random() * 5);
-            switch (rand) {
-                case 1:
-                    item = this.state.things;
-                    item.push('rand' + i);
-                    this.makeMyState(item);
-                    break;
-                case 2:
-                    item = this.state.that;
-                    item.push('rand' + i);
-                    this.makeMyState(0, item);
-                    break;
-                case 3:
-                    item = this.state.make;
-                    item.push('rand' + i);
-                    this.makeMyState(0, 0, item);
-                    break;
-                case 4:
-                    item = this.state.me;
-                    item[i] = 'rand' + i;
-                    this.makeMyState(0, 0, 0, item);
-                    break;
-                case 5:
-                default:
-                    item = this.state.happy;
-                    item[i] = 'rand' + i;
-                    this.makeMyState(0, 0, 0, 0, item);
-                    break;
-            }
+        var count = this.props.count;
+        var state = {};
+        for (var i = 0; i < count; ++i) {
+            state[getRandomWord()] = getRandomWord();
         }
-    },
 
-    makeMyState: function makeMyState(things, that, make, me, happy) {
-        if (things) {
-            this.setState({ things: things });
-        }
-        if (that) {
-            this.setState({ that: that });
-        }
-        if (make) {
-            this.setState({ make: make });
-        }
-        if (me) {
-            this.setState({ me: me });
-        }
-        if (happy) {
-            this.setState({ happy: happy });
-        }
+        this.setState(state);
     },
-
-    getValue: function getValue() {
-        var state = this.state;
-        return state.things.length + state.that.length + state.make.length - Object.keys(this.state.me).length - Object.keys(this.state.happy).length;
-    },
-
 
     render: function render() {
         var a = [];
-        var value = this.getValue();
-
-        if (value < 1) {
-            value = 10;
-        }
-
-        for (var i = 0; i < 10; ++i) {
-            a[i] = React.createElement(Middle, { index: i });
+        for (var i = 0; i < this.props.elCount; ++i) {
+            a[i] = React.createElement(Middle, _extends({}, this.state, {
+                index: i }));
         }
         return React.createElement(
             'div',
@@ -117,7 +84,6 @@ var Top = React.createClass({
     }
 });
 
-module.exports = function render(i) {
-    return renderToString(React.createElement(Top, { count: i }));
+module.exports = function render(elCount, propCount) {
+    return renderToString(React.createElement(Top, { elCount: elCount, propCount: propCount }));
 };
-
