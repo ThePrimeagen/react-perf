@@ -1,2 +1,2 @@
 const runner = require('./index.js');
-runner(100);
+runner(3, 10);

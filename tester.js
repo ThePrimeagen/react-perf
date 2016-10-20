@@ -6,7 +6,7 @@ var total = 0;
 for (var i = 0; i < 2; ++i) {
     suite.
         add('runner', function() {
-            return runner(100);
+            return runner(3, 10);
         }).
         on('cycle', function(x) {
             hertz.push(x.target.hz);
