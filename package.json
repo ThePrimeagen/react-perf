@@ -1,0 +1,17 @@
+{
+  "name": "reactor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "0x": "^2.2.12",
+    "benchmark": "^2.1.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
+  }
+}
